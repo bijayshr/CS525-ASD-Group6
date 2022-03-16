@@ -2,7 +2,9 @@ package framework.domain;
 
 import shared.Customer;
 
-public class CompanyAccount extends Customer {
+import java.io.Serializable;
+
+public class CompanyAccount extends Customer implements Serializable {
     int numOfEmployee;
     public CompanyAccount(int customerId, String name,
                           String street, String city, String state,

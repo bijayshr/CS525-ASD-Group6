@@ -2,9 +2,10 @@ package framework.domain;
 
 import shared.Customer;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class PersonalAccount extends Customer {
+public class PersonalAccount extends Customer implements Serializable {
     private LocalDate birthDate;
 
     public PersonalAccount(int customerId,
