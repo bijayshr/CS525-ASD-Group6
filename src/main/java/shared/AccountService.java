@@ -19,7 +19,7 @@ public abstract class AccountService implements Observable {
 
 	public AccountService(AccountDAO accountDAO){
 		this.accountDAO = accountDAO;
-		this.observerList = new ArrayList<Observer>();
+		this.observerList = new ArrayList<>();
 		this.registerObserver(UIFrame.getInstance());
 		UIFrame.getInstance().setSubject(this);
 	}
@@ -41,13 +41,11 @@ public abstract class AccountService implements Observable {
 	public void deposit(String accountNumber, double amount) {
 		Account account = accountDAO.loadAccount(accountNumber);
 		account.deposit(amount);
-
 		accountDAO.updateAccount(account);
 	}
 
 	public Account getAccount(String accountNumber) {
-		Account account = accountDAO.loadAccount(accountNumber);
-		return account;
+		return accountDAO.loadAccount(accountNumber);
 	}
 
 	public Collection<Account> getAllAccounts() {

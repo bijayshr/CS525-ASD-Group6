@@ -2,10 +2,11 @@ package framework.ui;
 
 
 import banking.commands.NoCommand;
+import banking.constant.BankingLogMessageConstant;
+import lombok.extern.slf4j.Slf4j;
 import shared.Account;
 import shared.AccountService;
 import shared.Customer;
-import shared.Log;
 import creditcard.service.CreditCardAccountService;
 import framework.AccountOperationConstant;
 import framework.Command;
@@ -21,6 +22,7 @@ import java.util.Map;
 /**
  * A basic JFC based application.
  */
+@Slf4j
 public class UIFrame extends FormTemplate implements UIControl, framework.Observer
 {
 	/****
@@ -29,7 +31,7 @@ public class UIFrame extends FormTemplate implements UIControl, framework.Observ
 	private Command addPersonalAccountCommand;
 	private Command addCompanyAccountCommand;
 
-	protected AccountOperationConstant accountOperationCategory;
+	protected AccountOperationConstant accountOperationConstant;
 
 	private Collection<String> accountTypes;
 	private Customer customer;
@@ -211,7 +213,7 @@ public class UIFrame extends FormTemplate implements UIControl, framework.Observ
 			}
 		}
 		this.subject.getAllAccounts().forEach(this::tableRow);
-		Log.instance.write("Update table in the MainForm");
+		log.info(BankingLogMessageConstant.UPDATE_UI);
 	}
 
 	public void setSubject(AccountService subject) {
@@ -233,16 +235,14 @@ public class UIFrame extends FormTemplate implements UIControl, framework.Observ
 		}
 	}
 
-	void MainFrm_windowClosing(WindowEvent event)
-	{
-		// to do: code goes here.
+	void MainFrm_windowClosing(WindowEvent event) {
 		MainFrm_windowClosing_Interaction1(event);
 	}
 
 	void MainFrm_windowClosing_Interaction1(WindowEvent event) {
 		try {
 			this.exitApplication();
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
 	}
 
@@ -260,7 +260,7 @@ public class UIFrame extends FormTemplate implements UIControl, framework.Observ
 		jDialog.show();
 	}
 
-	public AccountOperationConstant getAccountOperationCategory() {
-		return accountOperationCategory;
+	public AccountOperationConstant getAccountOperationConstant() {
+		return accountOperationConstant;
 	}
 }

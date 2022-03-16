@@ -7,7 +7,7 @@ public class AccountDAOImpl implements AccountDAO {
     Collection<Account> accounts;
 
     public AccountDAOImpl(){
-        accounts = new ArrayList<Account>();
+        accounts = new ArrayList<>();
     }
 
     public void createAccount(Account account) {

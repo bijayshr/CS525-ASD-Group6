@@ -7,7 +7,7 @@ public interface AccountDAO {
 
     void updateAccount(Account account);
 
-    Account loadAccount(String accountnumber);
+    Account loadAccount(String accountNumber);
 
     Collection<Account> getAccounts();
 }

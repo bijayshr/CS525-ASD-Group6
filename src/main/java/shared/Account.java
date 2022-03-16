@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -36,24 +36,34 @@ public abstract class Account {
 	public void deposit(double amount) {
 		AccountEntry entry = new AccountEntry(
 				amount,
+				new Date(),
 				AccountOperationConstant.DEPOSITED.name(),
 				"",
-				"");
+				""
+		);
 		accountEntries.add(entry);
 	}
 
 	public void withdraw(double amount) {
 		AccountEntry entry = new AccountEntry(
-				-amount,
+				amount,
+				new Date(),
 				AccountOperationConstant.WITHDRAW.name(),
 				"",
-				"");
+				""
+		);
 		accountEntries.add(entry);
 	}
 
 	public void addInterest(){
 		double interest =  interestComputationStrategy.computeInterest(getBalance());
-		AccountEntry entry =  new AccountEntry(interest,"interest added","","");
+		AccountEntry entry = new AccountEntry(
+				interest,
+				new Date(),
+				AccountOperationConstant.INTEREST.name(),
+				"",
+				""
+		);
 		accountEntries.add(entry);
 	}
 
@@ -62,14 +72,23 @@ public abstract class Account {
 	}
 
 	public void transferFunds(Account toAccount, double amount, String description) {
-		AccountEntry fromEntry = new AccountEntry(-amount, description, toAccount.getAccountNumber(),
-				toAccount.getCustomer().getName());
-		AccountEntry toEntry = new AccountEntry(amount, description, toAccount.getAccountNumber(),
-				toAccount.getCustomer().getName());
-		
-		accountEntries.add(fromEntry);
-		
-		toAccount.addEntry(toEntry);
+		AccountEntry fromAccountEntry = new AccountEntry(
+				-amount,
+				new Date(),
+				description,
+				toAccount.getAccountNumber(),
+				toAccount.getCustomer().getName()
+		);
+
+		AccountEntry toAccountEntry = new AccountEntry(
+				amount,
+				new Date(),
+				description,
+				toAccount.getAccountNumber(),
+				toAccount.getCustomer().getName()
+		);
+		accountEntries.add(fromAccountEntry);
+		toAccount.addEntry(toAccountEntry);
 	}
 
 	public abstract double accept(Visitor visitor);

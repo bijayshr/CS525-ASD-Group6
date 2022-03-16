@@ -1,11 +1,14 @@
 package banking.dao;
 
+import lombok.extern.slf4j.Slf4j;
 import shared.Account;
 import shared.AccountDAO;
+import shared.constant.ApplicationMessageConstant;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+@Slf4j
 public class BankingAccountDAO implements AccountDAO {
     private static volatile BankingAccountDAO instance;
     Collection<Account> accountlist = new ArrayList<>();
@@ -24,8 +27,8 @@ public class BankingAccountDAO implements AccountDAO {
     @Override
     public void createAccount(Account account) {
         accountlist.add(account);
-        System.out.println("Creating account with account number: " + account.getAccountNumber() +
-                ", and for customer: " +
+        log.info(ApplicationMessageConstant.ACCOUNT_CREATED_SUCCESSFULLY,
+                account.getAccountNumber(),
                 account.getCustomer().getName());
     }
 
@@ -33,10 +36,12 @@ public class BankingAccountDAO implements AccountDAO {
     public void updateAccount(Account account) {
         Account isAccountExist = loadAccount(account.getAccountNumber());
         if (isAccountExist != null) {
-            accountlist.remove(isAccountExist); // remove the old
-            accountlist.add(account); // add the new
+            accountlist.remove(isAccountExist);
+            accountlist.add(account);
         }
-        System.out.println("Updating account " + account.getAccountNumber() + " for customer " + account.getCustomer().getName());
+        log.info(ApplicationMessageConstant.ACCOUNT_UPDATED_SUCCESSFULLY,
+                account.getAccountNumber(),
+                account.getCustomer().getName());
     }
 
     @Override
@@ -46,7 +51,6 @@ public class BankingAccountDAO implements AccountDAO {
                 return account;
             }
         }
-
         return null;
     }
 
